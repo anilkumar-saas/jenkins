@@ -3,8 +3,7 @@ pipeline {
   stages {
       stage('Stand Up Rundeck Server') {
         steps {
-            echo 'Stand Up Rundeck Server'
-            sh 'mkdir /tmp/anilricha'
+            echo 'Stand Up Rundeck Server..'            
         }
        }
       stage('Run Automation Tests') {
