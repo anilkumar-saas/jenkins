@@ -4,6 +4,7 @@ pipeline {
       stage('Stand Up Rundeck Server') {
         steps {
             echo 'Stand Up Rundeck Server'
+            sh 'mkdir /tmp/anilricha'
         }
        }
       stage('Run Automation Tests') {
