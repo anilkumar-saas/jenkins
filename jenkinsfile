@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+  stages {
+      stage('Stand Up Rundeck Server') {
+        steps {
+            echo 'Stand Up Rundeck Server'
+        }
+       }
+      stage('Run Automation Tests') {
+         steps {
+            echo 'Run Automation Tests'
+          }
+      }
+      stage('Merge Dev Branch to Staging') {
+         steps {
+            echo 'Merge Dev Branch to Staging'
+          }
+          
+      }
+      stage('Import New Code to File Servers') {
+          steps {
+            echo 'Import New Code to File Servers'
+          }
+      }
+      stage('Completion Notification') {
+         steps {
+            echo 'Done!!!'
+         }
+      }
+   }
+}
