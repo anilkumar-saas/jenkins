@@ -1,0 +1,69 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.25">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@1.3.2"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@1.3.2">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2.55">
+    <script>def repository = &apos;git@github.com:anilkumar-saas/jenkins.git&apos; 
+import hudson.tasks.Shell
+job = Jenkins.instance.createProject(FreeStyleProject, &apos;TestJob&apos;)
+job.setDescription(&quot;Some description&quot;) 
+job.displayName = &apos;SomeTestJob(TESTING groovy)&apos; 
+job.scm = new hudson.plugins.git.GitSCM(repository) 
+job.save()
+
+
+pipeline {
+    agent { label &apos;slave_171&apos; }
+  stages {
+      stage(&apos;Stand Up Rundeck Server&apos;) {
+        steps {
+            echo &apos;Stand Up Rundeck Server&apos;
+            //Install Git on slave node
+            //sh &apos;sudo mkdir -p /vagrant&apos;
+            //sh &apos;sudo chmod o+wx /vagrant&apos;
+            //dir(&apos;/vagrant&apos;){
+            //  git credentialsId: &apos;319e5e22-9ed1-43b7-aed4-1437fb7322d1&apos;, url: &apos;https://github.ibm.com/Maximo-SaaS/rundeck-vagrant.git&apos;
+            //}
+            sh &apos;sudo cp -r /vagrant/server/key/mam_automation.rsa /vagrant/id_rsa&apos;
+            sh &apos;sudo chmod 644 /vagrant/id_rsa&apos;
+            sh &apos;sudo sh /vagrant/provision.sh&apos;
+        }
+       }
+      stage(&apos;Run Automation Tests&apos;) {
+         steps {
+            echo &apos;Run Automation Tests&apos;
+          }
+      }
+      stage(&apos;Merge Dev Branch to Staging&apos;) {
+         steps {
+            echo &apos;Merge Dev Branch to Staging&apos;
+          }
+          
+      }
+      stage(&apos;Import New Code to File Servers&apos;) {
+          steps {
+            echo &apos;Import New Code to File Servers&apos;
+          }
+      }
+      stage(&apos;Completion Notification&apos;) {
+         steps {
+            echo &apos;Done!!!&apos;
+         }
+      }
+   }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
